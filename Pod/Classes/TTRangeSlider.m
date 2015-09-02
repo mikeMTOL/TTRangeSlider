@@ -92,6 +92,11 @@ static const CGFloat kLabelsFontSize = 12.0f;
     [self refresh];
 }
 
+- (void) setDelegate:(id<TTRangeSliderDelegate>)delegate {
+    _delegate = delegate;
+    [self refresh];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
 
