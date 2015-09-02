@@ -11,6 +11,10 @@
 
 @protocol TTRangeSliderDelegate <NSObject>
 
+@optional
 -(void)rangeSlider:(TTRangeSlider *)sender didChangeSelectedMinimumValue:(float)selectedMinimum andMaximumValue:(float)selectedMaximum;
+-(NSString* _Nullable)rangeSlider:(TTRangeSlider *)sender labelForMinValue:(float)selectedMinimum;
+-(NSString* _Nullable)rangeSlider:(TTRangeSlider *)sender labelForMaxValue:(float)selectedMaximum;
+
 
 @end

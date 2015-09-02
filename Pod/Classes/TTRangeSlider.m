@@ -169,11 +169,31 @@ static const CGFloat kLabelsFontSize = 12.0f;
         self.maxLabel.string = @"";
         return;
     }
+    
+    
+    NSString* overrideMaxLabel = nil;
+    if ([self.delegate respondsToSelector:@selector(rangeSlider:labelForMaxValue:)]) {
+        overrideMaxLabel = [self.delegate rangeSlider:self labelForMaxValue:self.selectedMaximum];
+    }
+    NSString* overrideMinLabel = nil;
+    if ([self.delegate respondsToSelector:@selector(rangeSlider:labelForMinValue:)]) {
+        overrideMinLabel = [self.delegate rangeSlider:self labelForMinValue:self.selectedMinimum];
+    }
 
+    
     NSNumberFormatter *formatter = (self.numberFormatterOverride != nil) ? self.numberFormatterOverride : self.decimalNumberFormatter;
-
-    self.minLabel.string = [formatter stringFromNumber:@(self.selectedMinimum)];
-    self.maxLabel.string = [formatter stringFromNumber:@(self.selectedMaximum)];
+    
+    if (overrideMinLabel == nil) {
+        self.minLabel.string = [formatter stringFromNumber:@(self.selectedMinimum)];
+    } else {
+        self.minLabel.string = overrideMinLabel;
+    }
+    
+    if (overrideMaxLabel == nil) {
+        self.maxLabel.string = [formatter stringFromNumber:@(self.selectedMaximum)];
+    } else {
+        self.maxLabel.string = overrideMaxLabel;
+    }
 }
 
 #pragma mark - Set Positions
@@ -307,7 +327,7 @@ static const CGFloat kLabelsFontSize = 12.0f;
     float percentage = ((location.x-CGRectGetMinX(self.sliderLine.frame)) - HANDLE_DIAMETER/2) / (CGRectGetMaxX(self.sliderLine.frame) - CGRectGetMinX(self.sliderLine.frame));
 
     //multiply that percentage by self.maxValue to get the new selected minimum value
-    float selectedValue = percentage * (self.maxValue - self.minValue) + self.minValue;
+    float selectedValue = (int)(percentage * (self.maxValue - self.minValue) + self.minValue);
 
     if (self.leftHandleSelected)
     {

@@ -26,6 +26,7 @@
     self.rangeSlider.maxValue = 200;
     self.rangeSlider.selectedMinimum = 50;
     self.rangeSlider.selectedMaximum = 150;
+    self.rangeSlider.step = 10;
     
     //currency range slider
     self.rangeSliderCurrency.delegate = self;
@@ -64,6 +65,14 @@
     else if (sender == self.rangeSliderCustom){
         NSLog(@"Custom slider updated. Min Value: %.0f Max Value: %.0f", selectedMinimum, selectedMaximum);
     }
+}
+
+-(NSString*)rangeSlider:(TTRangeSlider *)sender labelForMaxValue:(float)selectedMaximum
+{
+    if (selectedMaximum == sender.maxValue) {
+        return @"MAX";
+    }
+    return nil;
 }
 
 @end
